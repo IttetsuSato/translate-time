@@ -14,7 +14,8 @@ import { FormsModule } from "@angular/forms";
         type="number"
         step="0.01"
         min="0"
-        [(ngModel)]="actualTime"
+        [ngModel]="actualTime"
+        (ngModelChange)="onActualTimeChange($event)"
         placeholder="例: 10.50"
       />
     </div>
@@ -26,7 +27,8 @@ import { FormsModule } from "@angular/forms";
         id="windSpeed"
         type="number"
         step="0.1"
-        [(ngModel)]="windSpeed"
+        [ngModel]="windSpeed"
+        (ngModelChange)="onWindSpeedChange($event)"
         placeholder="例: 1.5"
       />
       <small>正の値: 向かい風、負の値: 追い風</small>
@@ -35,51 +37,51 @@ import { FormsModule } from "@angular/forms";
   </form>
   `,
 	styles: `
-  /* 入力セクション */
-.input-section {
-  background: white;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-  margin-bottom: 2rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-}
+    /* 入力セクション */
+    .input-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
 
-.input-group {
-  display: flex;
-  flex-direction: column;
-}
+    .input-group {
+      display: flex;
+      flex-direction: column;
+    }
 
-.input-group label {
-  font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
-  font-size: 1rem;
-}
+    .input-group label {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
 
-.input-group input {
-  padding: 1rem;
-  border: 2px solid #e1e8ed;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-  background: #fafbfc;
-}
+    .input-group input {
+      padding: 1rem;
+      border: 2px solid #e1e8ed;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      background: #fafbfc;
+    }
 
-.input-group input:focus {
-  outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-  background: white;
-}
+    .input-group input:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+      background: white;
+    }
 
-.input-group small {
-  color: #7f8c8d;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-}
+    .input-group small {
+      color: #7f8c8d;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
   `,
 	imports: [FormsModule],
 })
@@ -89,13 +91,11 @@ export class TimeAndWindForm {
 	@Output() actualTimeChange = new EventEmitter<number>();
 	@Output() windSpeedChange = new EventEmitter<number>();
 
-	onActualTimeChange(event: any) {
-		this.actualTime = event;
-		this.actualTimeChange.emit(event);
+	onActualTimeChange(value: number) {
+		this.actualTimeChange.emit(value);
 	}
 
-	onWindSpeedChange(event: any) {
-		this.windSpeed = event;
-		this.windSpeedChange.emit(event);
+	onWindSpeedChange(value: number) {
+		this.windSpeedChange.emit(value);
 	}
 }
