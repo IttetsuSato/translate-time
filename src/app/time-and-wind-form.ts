@@ -1,6 +1,13 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
+const MIN_TIME = 0.0;
+const MAX_TIME = 100.0;
+const TIME_STEP = 0.01;
+const MIN_WIND_SPEED = -100.0;
+const MAX_WIND_SPEED = 100.0;
+const WIND_SPEED_STEP = 0.1;
+
 @Component({
 	selector: "time-and-wind-form",
 	template: `
@@ -12,8 +19,9 @@ import { FormsModule } from "@angular/forms";
         name="actualTime"
         id="actualTime"
         type="number"
-        step="0.01"
-        min="0"
+        step="${TIME_STEP}"
+        min="${MIN_TIME}"
+        max="${MAX_TIME}"
         [ngModel]="actualTime"
         (ngModelChange)="onActualTimeChange($event)"
         placeholder="例: 10.50"
@@ -26,7 +34,10 @@ import { FormsModule } from "@angular/forms";
         name="windSpeed"
         id="windSpeed"
         type="number"
-        step="0.1"
+        min="${MIN_WIND_SPEED}"
+        max="${MAX_WIND_SPEED}"
+        step="${WIND_SPEED_STEP}"
+        pattern="^-?\\d+(\\.\\d{1})?$"
         [ngModel]="windSpeed"
         (ngModelChange)="onWindSpeedChange($event)"
         placeholder="例: 1.5"
@@ -92,10 +103,17 @@ export class TimeAndWindForm {
 	@Output() windSpeedChange = new EventEmitter<number>();
 
 	onActualTimeChange(value: number) {
-		this.actualTimeChange.emit(value);
+		const validatedValue = Math.max(MIN_TIME, Math.min(MAX_TIME, value));
+		const roundedValue = Math.round(validatedValue * 100) / 100;
+		this.actualTimeChange.emit(roundedValue);
 	}
 
 	onWindSpeedChange(value: number) {
-		this.windSpeedChange.emit(value);
+		const validatedValue = Math.max(
+			MIN_WIND_SPEED,
+			Math.min(MAX_WIND_SPEED, value),
+		);
+		const roundedValue = Math.round(validatedValue * 10) / 10;
+		this.windSpeedChange.emit(roundedValue);
 	}
 }
