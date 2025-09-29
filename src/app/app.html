@@ -4,33 +4,7 @@
     <p>100mのタイムと風速を入力して、無風換算タイムと各風速でのタイムを計算します</p>
   </div>
 
-  <div class="input-section">
-    <div class="input-group">
-      <label for="actualTime">実際のタイム (秒)</label>
-      <input
-        id="actualTime"
-        type="number"
-        step="0.01"
-        min="0"
-        [ngModel]="actualTime()"
-        (ngModelChange)="actualTime.set($event)"
-        placeholder="例: 10.50"
-      />
-    </div>
-    
-    <div class="input-group">
-      <label for="windSpeed">風速 (m/s)</label>
-      <input
-        id="windSpeed"
-        type="number"
-        step="0.1"
-        [ngModel]="windSpeed()"
-        (ngModelChange)="windSpeed.set($event)"
-        placeholder="例: 1.5"
-      />
-      <small>正の値: 向かい風、負の値: 追い風</small>
-    </div>
-  </div>
+  <time-and-wind-form [actualTime]="actualTime()" [windSpeed]="windSpeed()"></time-and-wind-form>
 
   @if (actualTime() > 0) {
     <div class="results-section">
